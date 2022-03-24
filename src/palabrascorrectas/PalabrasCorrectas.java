@@ -5,14 +5,14 @@ import io.Out;
 import ui.Menu;
 
 /**
- *
- * @author a21iagoof
+ * Clase principal del proyecto.
+ * 
+ * @author Iago Oitavén Fraga y Samuel Novoa Comesaña
  */
 
 public class PalabrasCorrectas {
     private static TableTop tp = new TableTop();
     private static boolean isRunning = true;
-    
     private static String[] opts = {
          "Juego nuevo",
          "Mostrar reglas",
@@ -22,11 +22,21 @@ public class PalabrasCorrectas {
     
     private static final Menu mainMenu = new Menu(tp.getLogo(), opts, true, true);
     
+    /**
+     * Método principal del proyecto.
+     * 
+     * @param args Argumentos de la línea de comandos
+     */
     public static void main(String[] args) {
         while (isRunning)
             executeOpt(mainMenu.getOption());
     }
     
+    /**
+     * Método dónde se definen las acciones para cada opción del menú.
+     * 
+     * @param opt Opción seleccionada por el usuario
+     */
     private static void executeOpt(int opt) {
         switch (opt) {
             case 0:
