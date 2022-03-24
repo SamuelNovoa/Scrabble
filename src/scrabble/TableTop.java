@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
+import static scrabble.PrizeCells.*;
 import tools.Matrix;
 
 /**
@@ -306,5 +307,37 @@ public class TableTop {
         players[playerActive].pickWord(clearWord.toArray(new String[clearWord.size()]));
         
         return points;
+    }
+    
+    /**
+     * Xenerar un array con todas as poscións premiadas
+     * 
+     * @return Array de PrizelCells coas casiilas de premio
+     */
+    private PrizeCell[] getPrizeCells() {
+        Object[] arr = new Object[(tableTop.length-2)*(tableTop.length-2)];
+        for (int i = 0; i < tableTop.length-2; i++) 
+            for (int j = 0; j < tableTop[i].length-2; j++) 
+                arr[i*(tableTop[i].length-2)+j] = new int[] {i+1, j+1};
+        
+        arr = Matrix.shuffle(arr, 14);
+        
+        PrizeCell[] prizeCell = new PrizeCell[14];
+        
+        int i = 0;
+        for (; i < PRIZE_WORD_2.getCount(); i++)
+            prizeCell[i] = new PrizeCell(PRIZE_WORD_2, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
+        
+        for (; i < PRIZE_LETTER_4.getCount(); i++)
+            prizeCell[i] = new PrizeCell(PRIZE_LETTER_4, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
+        
+        for (; i < PRIZE_LETTER_3.getCount(); i++)
+            prizeCell[i] = new PrizeCell(PRIZE_LETTER_3, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
+        
+        for (; i < PRIZE_LETTER_2.getCount(); i++)
+            prizeCell[i] = new PrizeCell(PRIZE_LETTER_2, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
+        
+        
+        return prizeCell;
     }
 }

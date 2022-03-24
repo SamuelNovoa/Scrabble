@@ -45,8 +45,9 @@ public class Scrabble {
             case 1:
                 Out.msg("  REGLAS\n" +
                     "==========\n\n" +
-                    "1.-\n" +
-                    "2.-\n");
+                    "1.- La primera palabra deberá ponerse en las coordenadas 11 11\n" +
+                    "2.- Cada jugador puede pasar hasta 3 veces antes de ser eliminado\n" +
+                    "3.- \n");
                 
                 Out.msg("¿Continuar? [S/N]: ");
                 In.getConfirmation();
