@@ -54,7 +54,7 @@ public class Scrabble {
                 break;
             case 2:
                 Out.msg("Introduce el número de jugadores deseado: ", false);
-                tp.setPlayers(In.getOption(2, 6));
+                tp.setPlayers(In.getOption(2, 4));
                 break;
             case 3:
                 isRunning = false;
