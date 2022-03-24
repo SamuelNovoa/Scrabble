@@ -17,8 +17,8 @@ public enum PrizeCells {
     PRIZE_LETTER_4("✸", 3),
     PRIZE_WORD_2("✹", 2);
 
-    String icon;
-    int count;
+    private String icon;
+    private int count;
     
     PrizeCells(String icon, int count) {
         this.icon = Out.toColor(icon, Out.Color.PURPLE);
