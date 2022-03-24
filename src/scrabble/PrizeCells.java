@@ -12,13 +12,24 @@ import io.Out;
  * @author a21samuelnc
  */
 public enum PrizeCells {
-    PRIZE_LETTER_2("✶"),
-    PRIZE_LETTER_3("✷"),
-    PRIZE_LETTER_4("✸"),
-    PRIZE_WORD_2("✹");
+    PRIZE_LETTER_2("✶", 5),
+    PRIZE_LETTER_3("✷", 4),
+    PRIZE_LETTER_4("✸", 3),
+    PRIZE_WORD_2("✹", 2);
 
     String icon;
-    PrizeCells(String icon) {
+    int count;
+    
+    PrizeCells(String icon, int count) {
         this.icon = Out.toColor(icon, Out.Color.PURPLE);
+        this.count = count;
+    }
+    
+    public String getIcon() {
+        return icon;
+    }
+    
+    public int getCount() {
+        return count;
     }
 }
