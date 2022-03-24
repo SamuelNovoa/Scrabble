@@ -1,4 +1,4 @@
-package palabrascorrectas;
+package scrabble;
 
 import io.In;
 import io.Out;
@@ -10,7 +10,7 @@ import ui.Menu;
  * @author Iago Oitavén Fraga y Samuel Novoa Comesaña
  */
 
-public class PalabrasCorrectas {
+public class Scrabble {
     private static TableTop tp = new TableTop();
     private static boolean isRunning = true;
     private static String[] opts = {

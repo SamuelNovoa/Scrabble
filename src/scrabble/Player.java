@@ -5,7 +5,7 @@
  * Autores: Iago Oitavén Fraga, Samuel Novoa Comesaña
  */
 
-package palabrascorrectas;
+package scrabble;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package palabrascorrectas;
+package scrabble;
 
 import io.In;
 import io.Out;
