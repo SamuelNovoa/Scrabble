@@ -55,20 +55,6 @@ public class TableTop {
     private String logo;
     
     public TableTop() {
-        tableTop = new String[23][23];
-        for (int i = 0; i < 23; i++) {
-            for (int j = 0; j < 23; j++) {
-                if ((i == 0 && j == 0) || (i == 22 && j == 22) || (i == 0 && j == 22) || (i == 22 && j == 0))
-                    tableTop[i][j] = Out.toColor("\u2593", Color.RED);
-                else if (i == 0 || i == 22)
-                    tableTop[i][j] = Out.toColor(Integer.toString(j), Color.RED);
-                else if (j == 0 || j == 22)
-                    tableTop[i][j] = Out.toColor(Integer.toString(i), Color.RED);
-                else
-                    tableTop[i][j] = "";
-            }
-        }
-        
         this.playersNum = 2;
         this.gameActive = false;
         
@@ -103,6 +89,24 @@ public class TableTop {
         
         for (String letter : validLetters)
             lettersPool.push(letter);
+        
+        tableTop = new String[23][23];
+        for (int i = 0; i < 23; i++) {
+            for (int j = 0; j < 23; j++) {
+                
+                if ((i == 0 && j == 0) || (i == 22 && j == 22) || (i == 0 && j == 22) || (i == 22 && j == 0))
+                    tableTop[i][j] = Out.toColor("\u2593", Color.RED);
+                else if (i == 0 || i == 22)
+                    tableTop[i][j] = Out.toColor(Integer.toString(j), Color.RED);
+                else if (j == 0 || j == 22)
+                    tableTop[i][j] = Out.toColor(Integer.toString(i), Color.RED);
+                else
+                    tableTop[i][j] = "";
+            }
+        }
+        
+        Object[] asd = new Object[3];
+        asd[0] = new Object[]{PrizeCells.PRIZE_LETTER_2, 1, 2};
         
         Random rnd = new Random();
         Out.Color color = validColors[rnd.nextInt(validColors.length)];
