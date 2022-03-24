@@ -19,4 +19,16 @@ public class PrizeCell {
         this.x = x;
         this.y = y;
     }
+
+    public PrizeCells getType() {
+        return type;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

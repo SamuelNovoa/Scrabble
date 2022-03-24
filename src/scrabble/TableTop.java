@@ -106,6 +106,9 @@ public class TableTop {
             }
         }
         
+        for (PrizeCell cell : getPrizeCells())
+            tableTop[cell.getX()][cell.getY()] = cell.getType().getIcon();
+        
         Object[] asd = new Object[3];
         asd[0] = new Object[]{PrizeCells.PRIZE_LETTER_2, 1, 2};
         
@@ -324,20 +327,22 @@ public class TableTop {
         
         PrizeCell[] prizeCell = new PrizeCell[14];
         
-        int i = 0;
-        for (; i < PRIZE_WORD_2.getCount(); i++)
+        int j = 0;
+        for (int i = j; i < PRIZE_WORD_2.getCount(); i++)
             prizeCell[i] = new PrizeCell(PRIZE_WORD_2, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
         
-        for (; i < PRIZE_LETTER_4.getCount(); i++)
+        j += PRIZE_WORD_2.getCount();
+        for (int i = j; i < (j + PRIZE_LETTER_4.getCount()); i++)
             prizeCell[i] = new PrizeCell(PRIZE_LETTER_4, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
         
-        for (; i < PRIZE_LETTER_3.getCount(); i++)
+        j += PRIZE_LETTER_4.getCount();
+        for (int i = j; i < (j + PRIZE_LETTER_3.getCount()); i++)
             prizeCell[i] = new PrizeCell(PRIZE_LETTER_3, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
         
-        for (; i < PRIZE_LETTER_2.getCount(); i++)
+        j += PRIZE_LETTER_3.getCount();
+        for (int i = j; i < (j + PRIZE_LETTER_2.getCount()); i++)
             prizeCell[i] = new PrizeCell(PRIZE_LETTER_2, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
-        
-        
+
         return prizeCell;
     }
 }

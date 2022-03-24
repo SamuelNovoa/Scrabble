@@ -2,6 +2,10 @@ package scrabble;
 
 import io.In;
 import io.Out;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import ui.Menu;
 
 /**
@@ -27,7 +31,7 @@ public class Scrabble {
      * 
      * @param args Argumentos de la línea de comandos
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         while (isRunning)
             executeOpt(mainMenu.getOption());
     }
