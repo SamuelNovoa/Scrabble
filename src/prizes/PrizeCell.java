@@ -3,24 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scrabble;
+package prizes;
 
 /**
  *
  * @author a21samuelnc
  */
 public class PrizeCell {
-    private PrizeCells type;
+    private Prizes type;
     private int x;
     private int y;
     
-    public PrizeCell(PrizeCells type, int x, int y) {
+    public PrizeCell(Prizes type, int x, int y) {
         this.type = type;
         this.x = x;
         this.y = y;
     }
 
-    public PrizeCells getType() {
+    public Prizes getType() {
         return type;
     }
 

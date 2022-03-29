@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scrabble;
+package prizes;
 
 import io.Out;
 
@@ -11,7 +11,7 @@ import io.Out;
  *
  * @author a21samuelnc
  */
-public enum PrizeCells {
+public enum Prizes {
     PRIZE_LETTER_2('\u2726', 5),
     PRIZE_LETTER_3('\u2736', 4),
     PRIZE_LETTER_4('\u2737', 3),
@@ -20,7 +20,7 @@ public enum PrizeCells {
     private String icon;
     private int count;
     
-    PrizeCells(char icon, int count) {
+    Prizes(char icon, int count) {
         this.icon = Out.toColor(Character.toString(icon), Out.Color.PURPLE);
         this.count = count;
     }

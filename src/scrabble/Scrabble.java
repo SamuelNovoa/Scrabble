@@ -2,14 +2,16 @@ package scrabble;
 
 import io.In;
 import io.Out;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import ui.Menu;
+import words.Letter;
 
 /**
  * Clase principal del proyecto.
+ * 
+ * Importante: Para que la salida no se descuadre es necesario
+ * seleccionar la fuente "DejaVu Sans Mono 12" en la consola de
+ * netbeans.
  * 
  * @author Iago Oitavén Fraga y Samuel Novoa Comesaña
  */

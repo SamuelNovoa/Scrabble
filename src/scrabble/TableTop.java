@@ -1,5 +1,6 @@
 package scrabble;
 
+import prizes.PrizeCell;
 import io.In;
 import io.Out;
 import io.Out.Color;
@@ -7,8 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
-import static scrabble.PrizeCells.*;
+import static prizes.Prizes.*;
+import static scrabble.ErrorCode.*;
 import tools.Matrix;
+import words.Letter;
+import words.Word;
 
 /**
  *
@@ -23,14 +27,6 @@ public class TableTop {
         private Commands(String cmd) {
             this.CMD = cmd;
         }
-    }
-    
-    private enum ErrorCode {
-        ERR_INVALID_POS,
-        ERR_NOT_SPACE,
-        ERR_NOT_MATCH,
-        ERR_INVALID_LETTER,
-        OK
     }
     
     private Out.Color[] validColors = {
@@ -55,6 +51,18 @@ public class TableTop {
     private boolean gameActive;
     private String logo;
     
+    public static String pickLetter() {
+        return lettersPool.pop();
+    }
+    
+    public static String[] pickLetter(int num) {
+        String[] res = new String[num];
+        for (int i = 0; i < num; i++)
+            res[i] = lettersPool.pop();
+        
+        return res;
+    }
+    
     public TableTop() {
         this.playersNum = 2;
         this.gameActive = false;
@@ -75,6 +83,22 @@ public class TableTop {
         this.playersNum = playersNum;
     }
     
+    public int size() {
+        return tableTop.length;
+    }
+    
+    public String get(int row, int column) {
+        return tableTop[row][column];
+    }
+    
+    public void set(int row, int column, String data) {
+        tableTop[row][column] = data;
+    }
+    
+    public Player getActPlayer() {
+        return players[playerActive];
+    }
+    
     public void print() {
         Out.clear();
         Out.msg(logo);
@@ -84,6 +108,23 @@ public class TableTop {
     }
     
     public void newGame() {
+        init();
+        Out.clear();
+        Out.msg(logo);
+        
+        for (int i = 0; i < playersNum; i++) {
+            Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
+            players[i] = new Player(In.getString());
+        }
+        
+        Out.msg("\n");
+        gameActive = true;
+        
+        while (gameActive)
+            nextRound();
+    }
+    
+    private void init() {
         players = new Player[playersNum];
         lettersPool = new Stack<>();
         Matrix.shuffle(validLetters);
@@ -108,10 +149,7 @@ public class TableTop {
         
         for (PrizeCell cell : getPrizeCells())
             tableTop[cell.getX()][cell.getY()] = cell.getType().getIcon();
-        
-        Object[] asd = new Object[3];
-        asd[0] = new Object[]{PrizeCells.PRIZE_LETTER_2, 1, 2};
-        
+
         Random rnd = new Random();
         Out.Color color = validColors[rnd.nextInt(validColors.length)];
         
@@ -119,68 +157,7 @@ public class TableTop {
             + Out.toColor("░▀▄ █░░ █▀▄ █▄█ █▀▄ █▀▄ █░░ █▀▀\n", color)
             + Out.toColor("▀▀░ ░▀▀ ▀░▀ ▀░▀ ▀▀░ ▀▀░ ▀▀▀ ▀▀▀\n\n", color);
         
-        Out.clear();
-        Out.msg(logo);
-        
-        for (int i = 0; i < playersNum; i++) {
-            Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
-            players[i] = new Player(In.getString());
-        }
-        
-        Out.msg("\n");
         playerActive = rnd.nextInt(playersNum);
-        gameActive = true;
-        
-        while (gameActive)
-            nextRound();
-    }
-    
-    public static String pickLetter() {
-        return lettersPool.pop();
-    }
-    
-    public static String[] pickLetter(int num) {
-        String[] res = new String[num];
-        for (int i = 0; i < num; i++)
-            res[i] = lettersPool.pop();
-        
-        return res;
-    }
-    
-    /**
-     * Coloca a palabra no taboleiro
-     * @param word Palabra separada en letras para colocar no taboleiro
-     * @param pos Coordenada da primeira letra da palabra
-     * @param direction true - Dirección da palabra en horizontal, false - Dirección da palabra en vertical
-     * @return true - Si se colocou a palabra, false se non
-     */
-    public boolean setWord(String word, byte[] pos, boolean direction) {
-        boolean res = false;
-        
-        String[] wordLetters = getWord(word);
-        
-        switch (checkWord(wordLetters, pos, direction)) {
-            case ERR_INVALID_POS:
-                Out.err("Posición no válida.");
-                break;
-            case ERR_NOT_SPACE:
-                Out.err("No queda suficiente espacio.");
-                break;
-            case ERR_NOT_MATCH:
-                Out.err("No hay ninguna letra que coincida.");
-                break;
-            case ERR_INVALID_LETTER:
-                Out.err("No tienes las letras necesarias.");
-                break;
-            case OK:
-                players[playerActive].plusPoints(storeWord(wordLetters, pos, direction));
-                res = true;
-                break;
-            default:
-                break;
-        }
-        
-        return res;
     }
     
     private void nextRound() {
@@ -193,17 +170,18 @@ public class TableTop {
         
         boolean res = false;
         while (!res) {
-            String word = In.getString().toUpperCase();
+            String letters = In.getString().toUpperCase();
             
-            String[] tokens = word.split(" ");
+            String[] tokens = letters.split(" ");
             if (tokens.length != 4 || (!tokens[3].toUpperCase().equals("H") && !tokens[3].toUpperCase().equals("V"))) {
                 Out.err("¡Error! Tienes que introducir una línea con el formato \"PALABRA POS_X[INT] POS_Y[INT] DIRECCION[H|V]\"");
             } else {
-                word = tokens[0];
                 byte[] pos = { Byte.parseByte(tokens[2]), Byte.parseByte(tokens[1]) };
                 boolean dir = !tokens[3].toUpperCase().equals("H");
+                
+                Word word = new Word(tokens[0], pos, dir);
 
-                if (setWord(word, pos, dir))
+                if (setWord(word))
                     res = true;
             }
         }
@@ -214,102 +192,24 @@ public class TableTop {
             playerActive = 0;
     }
     
-    private static String[] getWord(String word) {
-        ArrayList<String> arr = new ArrayList<>();
-        
-        for (int i = 0 ; i < word.length(); i++) {
-            if (i < word.length() - 1 && checkLetter(word.charAt(i), word.charAt(i + 1))) {
-                String aux = Character.toString(word.charAt(i)) + Character.toString(word.charAt(i+1));
-                arr.add(aux);
-                i++;
-            } else {
-                arr.add(Character.toString(word.charAt(i)));
-            }
-        }
-        
-        String[] letters = new String[arr.size()];
-        for (int j = 0 ; j < arr.size() ; j++) {
-            letters[j] = arr.get(j);
-        }
-
-        return letters;
-    }
-    
-    private static boolean checkLetter(char firstLetter, char secondLetter) {
+        /**
+     * Coloca a palabra no taboleiro
+     * @param word Palabra separada en letras para colocar no taboleiro
+     * @return true - Si se colocou a palabra, false se non
+     */
+    private boolean setWord(Word word) {
         boolean res = false;
+        ErrorCode code = word.check(this);
         
-        if ((firstLetter == 'C' && secondLetter == 'H')
-        || (firstLetter == 'L' && secondLetter == 'L')
-        || (firstLetter == 'R' && secondLetter == 'R'))
+        if (code == OK) {
+            players[playerActive].plusPoints(word.getPoints());
+            word.store(this);
             res = true;
+        } else
+            Out.err(code.getError());
+            
         
         return res;
-    }
-    
-    private ErrorCode checkWord(String[] word, byte[] pos, boolean direction) {
-        ErrorCode res = ErrorCode.OK;
-        List<String> clearWord = new ArrayList<>();
-        
-        if (pos[0] < 0 || pos[0] >= tableTop.length)
-            res = ErrorCode.ERR_INVALID_POS;
-        else if (pos[1] < 0 || pos[1] >= tableTop.length)
-            res = ErrorCode.ERR_INVALID_POS;
-        else if (pos[direction ? 0 : 1] + word.length >= tableTop.length)
-            res = ErrorCode.ERR_NOT_SPACE;
-        else {
-            byte valid = 0;
-        
-            int xIndex;
-            int yIndex;
-
-            boolean hasNewLetters = false;
-            for (int i = 0; i < word.length && valid != -1; i++) {
-                xIndex = direction ? (pos[0] + i) : pos[0];
-                yIndex = direction ? pos[1] : (pos[1] + i);
-
-                if (tableTop[xIndex][yIndex].equals("")) {
-                    hasNewLetters = true;
-                    clearWord.add(word[i]);
-                    if (xIndex == 11 && yIndex == 11)
-                        valid = 1;
-                } else {
-                    if (tableTop[xIndex][yIndex].equals(word[i])) {
-                        valid = 1;
-                    } else
-                        valid = -1;
-                }
-            }
-            
-            if (valid == -1 || valid == 0 || !hasNewLetters)
-                res = ErrorCode.ERR_INVALID_POS;
-        }
-        
-        if (!players[playerActive].hasWord(clearWord.toArray(new String[clearWord.size()])))
-            res = ErrorCode.ERR_INVALID_LETTER;
-        
-        return res;
-    }
-    
-    private int storeWord(String[] word, byte[] pos, boolean direction) {
-        int points = 0;
-        
-        int xIndex;
-        int yIndex;
-        
-        List<String> clearWord = new ArrayList<>();
-        for (int i = 0; i < word.length; i++) {
-            xIndex = direction ? (pos[0] + i) : pos[0];
-            yIndex = direction ? (pos[1]) : pos[1] + i;
-            
-            if (tableTop[xIndex][yIndex].equals("")) {
-                tableTop[xIndex][yIndex] = word[i];
-                clearWord.add(word[i]);
-            }
-        }
-        
-        players[playerActive].pickWord(clearWord.toArray(new String[clearWord.size()]));
-        
-        return points;
     }
     
     /**
