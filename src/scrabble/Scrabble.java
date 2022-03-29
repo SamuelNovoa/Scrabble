@@ -4,7 +4,6 @@ import io.In;
 import io.Out;
 import java.io.UnsupportedEncodingException;
 import ui.Menu;
-import words.Letter;
 
 /**
  * Clase principal del proyecto.

@@ -4,14 +4,11 @@ import prizes.PrizeCell;
 import io.In;
 import io.Out;
 import io.Out.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 import static prizes.Prizes.*;
 import static scrabble.ErrorCode.*;
 import tools.Matrix;
-import words.Letter;
 import words.Word;
 
 /**
@@ -164,8 +161,8 @@ public class TableTop {
         print();
         
         Out.msg(validLetters.length + " : " + lettersPool.size());
-        Out.msg("¡Turno de " + players[playerActive].getName() + "!\n");
-        Out.printArr(new String[][] { players[playerActive].getLetters() }, validColors[playerActive]);
+        Out.msg("¡Turno de " + getActPlayer().getName() + "!\n");
+        Out.printArr(new String[][] { getActPlayer().getLetters() }, validColors[playerActive]);
         Out.msg("\n\n > ", false);
         
         boolean res = false;
@@ -202,7 +199,7 @@ public class TableTop {
         ErrorCode code = word.check(this);
         
         if (code == OK) {
-            players[playerActive].plusPoints(word.getPoints());
+            getActPlayer().plusPoints(word.getPoints());
             word.store(this);
             res = true;
         } else
