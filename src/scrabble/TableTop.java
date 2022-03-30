@@ -15,17 +15,7 @@ import words.Word;
  *
  * @author a21iagoof
  */
-public class TableTop {
-    private enum Commands {
-        CMD_PASS("PASAR"),
-        CMD_EXIT("SALIR");
-        
-        private final String CMD;
-        private Commands(String cmd) {
-            this.CMD = cmd;
-        }
-    }
-    
+public class TableTop { 
     private Out.Color[] validColors = {
         Out.Color.PURPLE,
         Out.Color.RED,
@@ -163,23 +153,27 @@ public class TableTop {
         Out.msg(validLetters.length + " : " + lettersPool.size());
         Out.msg("¡Turno de " + getActPlayer().getName() + "!\n");
         Out.printArr(new String[][] { getActPlayer().getLetters() }, validColors[playerActive]);
-        Out.msg("\n\n > ", false);
         
         boolean res = false;
         while (!res) {
+            Out.msg("\n\n > ", false);
             String letters = In.getString().toUpperCase();
             
-            String[] tokens = letters.split(" ");
-            if (tokens.length != 4 || (!tokens[3].toUpperCase().equals("H") && !tokens[3].toUpperCase().equals("V"))) {
-                Out.err("¡Error! Tienes que introducir una línea con el formato \"PALABRA POS_X[INT] POS_Y[INT] DIRECCION[H|V]\"");
-            } else {
-                byte[] pos = { Byte.parseByte(tokens[2]), Byte.parseByte(tokens[1]) };
-                boolean dir = !tokens[3].toUpperCase().equals("H");
-                
-                Word word = new Word(tokens[0], pos, dir);
+            if (executeCmd(letters))
+                res = true;
+            else {
+                String[] tokens = letters.split(" ");
+                if (tokens.length != 4 || (!tokens[3].toUpperCase().equals("H") && !tokens[3].toUpperCase().equals("V"))) {
+                    Out.err("¡Error! Tienes que introducir una línea con el formato \"PALABRA POS_X[INT] POS_Y[INT] DIRECCION[H|V]\"");
+                } else {
+                    byte[] pos = { Byte.parseByte(tokens[2]), Byte.parseByte(tokens[1]) };
+                    boolean dir = !tokens[3].toUpperCase().equals("H");
 
-                if (setWord(word))
-                    res = true;
+                    Word word = new Word(tokens[0], pos, dir);
+
+                    if (setWord(word))
+                        res = true;
+                }
             }
         }
         
@@ -187,6 +181,24 @@ public class TableTop {
                 
         if (playerActive >= playersNum)
             playerActive = 0;
+    }
+    
+    private boolean executeCmd(String str) {
+        boolean res = true;
+        
+        switch (str) {
+            case "PASAR":
+                getActPlayer().plusFails();
+                break;
+            case "SALIR":
+                gameActive = false;
+                break;
+            default:
+                res = false;
+                break;
+        }
+        
+        return res;
     }
     
         /**
