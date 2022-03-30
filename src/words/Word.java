@@ -95,7 +95,14 @@ public class Word {
     }
     
     public int getPoints() {
-        return 0;
+        int points = 0;
+
+        for (int i = 0; i < letters.length; i++)
+            points += letters[i].getPoints();
+
+        if (prize)
+            points *= 2;
+        return points;
     }
     
     private String[] clear() {

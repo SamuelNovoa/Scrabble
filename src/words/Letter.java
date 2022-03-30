@@ -18,12 +18,12 @@ public class Letter {
     private Prizes prize;
     
     private static final Object[][] LETTER_PUNT = new Object[][] {
-        { new String[] { "A", "E", "I", "O", "U", "L", "N", "R", "S", "T" }, 1 },
+        { new String[] { "A", "E", "I", "L", "N", "O", "R", "S", "T", "U" }, 1 },
         { new String[] { "D", "G" }, 2 },
         { new String[] { "B", "C", "M", "P" }, 3 },
-        { new String[] { "F", "H", "V", "W", "Y" }, 4 },
-        { new String[] { "K" }, 5 },
-        { new String[] { "J", "X" }, 8 },
+        { new String[] { "F", "H", "V", "Y" }, 4 },
+        { new String[] { "CH" }, 5 },
+        { new String[] { "J", "LL", "RR", "X" }, 8 },
         { new String[] { "Q", "Z", "Ñ" }, 10 }
     };
     
@@ -63,6 +63,21 @@ public class Letter {
         for (Object[] row : LETTER_PUNT)
             if (Arrays.binarySearch((String[])row[0], letter) >= 0)
                 points = (int)row[1];
+        
+        if (prize != null)
+            switch(prize) {
+                case PRIZE_LETTER_2:
+                    points *= 2;
+                    break;
+                case PRIZE_LETTER_3:
+                    points *= 3;
+                    break;
+                case PRIZE_LETTER_4:
+                    points *= 4;
+                    break;
+                    default:
+                        break;
+            }
         
         return points;
     }
