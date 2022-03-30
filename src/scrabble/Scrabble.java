@@ -58,7 +58,7 @@ public class Scrabble {
                 In.getConfirmation();
                 break;
             case 2:
-                Out.msg("Introduce el número de jugadores deseado: ", false);
+                Out.msg("Introduce el número de jugadores deseado [2 - 4]: ", false);
                 tp.setPlayers(In.getOption(2, 4));
                 break;
             case 3:

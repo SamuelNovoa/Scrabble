@@ -97,11 +97,15 @@ public class Word {
     public int getPoints() {
         int points = 0;
 
-        for (int i = 0; i < letters.length; i++)
-            points += letters[i].getPoints();
-
+        if (clear().length == 7)
+            points = 50;
+        else
+            for (Letter letter : letters)
+                points += letter.getPoints();
+        
         if (prize)
             points *= 2;
+        
         return points;
     }
     

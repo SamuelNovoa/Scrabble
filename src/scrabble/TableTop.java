@@ -4,6 +4,7 @@ import prizes.PrizeCell;
 import io.In;
 import io.Out;
 import io.Out.Color;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 import static prizes.Prizes.*;
@@ -31,7 +32,7 @@ public class TableTop {
         "T","U","U","U","U","U","U","U","V","V","X","Y","Z","*", "*"};
     
     private String[][] tableTop;
-    private Player[] players;
+    private ArrayList<Player> players;
     
     private int playerActive;
     private int playersNum;
@@ -83,7 +84,7 @@ public class TableTop {
     }
     
     public Player getActPlayer() {
-        return players[playerActive];
+        return players.get(playerActive);
     }
     
     public void print() {
@@ -101,7 +102,7 @@ public class TableTop {
         
         for (int i = 0; i < playersNum; i++) {
             Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
-            players[i] = new Player(In.getString());
+            players.add(new Player(In.getString()));
         }
         
         Out.msg("\n");
@@ -109,10 +110,12 @@ public class TableTop {
         
         while (gameActive)
             nextRound();
+        
+        printResults();
     }
     
     private void init() {
-        players = new Player[playersNum];
+        players = new ArrayList<>();
         lettersPool = new Stack<>();
         Matrix.shuffle(validLetters);
         
@@ -151,7 +154,7 @@ public class TableTop {
         print();
         
         Out.msg(validLetters.length + " : " + lettersPool.size());
-        Out.msg("¡Turno de " + getActPlayer().getName() + "!\n");
+        Out.msg("¡Turno de " + getActPlayer().getName() + "!\n" + "Puntuación: " + getActPlayer().getPoints() + "\n");
         Out.printArr(new String[][] { getActPlayer().getLetters() }, validColors[playerActive]);
         
         boolean res = false;
@@ -253,5 +256,18 @@ public class TableTop {
             prizeCell[i] = new PrizeCell(PRIZE_LETTER_2, ((int[]) arr[i])[0], ((int[]) arr[i])[1]);
 
         return prizeCell;
+    }
+    
+    private void printResults() {
+        String[][] results = new String[players.size()][2];
+        
+        for (int i = 0; i < results.length; i++) {
+            Player player = players.get(i);
+            results[i][0] = player.getName();
+            results[i][1] = Integer.toString(player.getPoints());
+        }
+        
+        Out.printArr(results);
+            
     }
 }
