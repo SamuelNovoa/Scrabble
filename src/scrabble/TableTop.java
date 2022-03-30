@@ -112,6 +112,8 @@ public class TableTop {
             nextRound();
         
         printResults();
+        Out.msg("Pulsa enter para continuar.");
+        In.pressToContinue();
     }
     
     private void init() {

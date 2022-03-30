@@ -54,8 +54,8 @@ public class Scrabble {
                     "2.- Cada jugador puede pasar hasta 3 veces antes de ser eliminado\n" +
                     "3.- \n");
                 
-                Out.msg("¿Continuar? [S/N]: ");
-                In.getConfirmation();
+                Out.msg("Pulsa enter para continuar");
+                In.pressToContinue();
                 break;
             case 2:
                 Out.msg("Introduce el número de jugadores deseado [2 - 4]: ", false);
