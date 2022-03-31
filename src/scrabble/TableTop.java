@@ -193,7 +193,7 @@ public class TableTop {
         
         playerActive++;
                 
-        if (playerActive >= playersNum)
+        if (playerActive >= playing.size())
             playerActive = 0;
     }
     
