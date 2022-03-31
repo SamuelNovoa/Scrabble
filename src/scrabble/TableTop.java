@@ -41,13 +41,7 @@ public class TableTop {
     private String logo;
     
     public String pickLetter() {
-        String letter = lettersPool.pop();
-        if (lettersPool.empty()) {
-            Out.err("¡No quedan fichas!");
-            gameActive = false;
-        }
-        
-        return letter;
+        return lettersPool.isEmpty() ? "" : lettersPool.pop();
     }
     
     public String[] pickLetter(int num) {
