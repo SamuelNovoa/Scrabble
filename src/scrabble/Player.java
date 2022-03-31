@@ -29,7 +29,7 @@ public class Player implements Comparable<Player> {
     public Player(String name) {
         this.NAME = name;
         this.points = 0;
-        this.fails = 0;
+        this.fails = 3;
         this.letters = TableTop.pickLetter(7);
         Arrays.sort(letters);
     }
@@ -82,8 +82,8 @@ public class Player implements Comparable<Player> {
     /**
      * Método para sumar un fallo ó xogador.
      */
-    public void plusFails() {
-       this.fails++;
+    public void lessFails() {
+       this.fails--;
     }
      
     

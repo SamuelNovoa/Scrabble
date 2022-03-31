@@ -33,6 +33,7 @@ public class TableTop {
     
     private String[][] tableTop;
     private ArrayList<Player> players;
+    private ArrayList<Player> playing;
     
     private int playerActive;
     private int playersNum;
@@ -84,7 +85,7 @@ public class TableTop {
     }
     
     public Player getActPlayer() {
-        return players.get(playerActive);
+        return playing.get(playerActive);
     }
     
     public void print() {
@@ -104,6 +105,7 @@ public class TableTop {
             Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
             players.add(new Player(In.getString()));
         }
+        playing = (ArrayList<Player>) players.clone();
         
         Out.msg("\n");
         gameActive = true;
@@ -156,7 +158,7 @@ public class TableTop {
         print();
         
         Out.msg(validLetters.length + " : " + lettersPool.size());
-        Out.msg("¡Turno de " + getActPlayer().getName() + "!\n" + "Puntuación: " + getActPlayer().getPoints() + "\n");
+        Out.msg("¡Turno de " + getActPlayer().getName() + "!\n" + "Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
         Out.printArr(new String[][] { getActPlayer().getLetters() }, validColors[playerActive]);
         
         boolean res = false;
@@ -193,7 +195,11 @@ public class TableTop {
         
         switch (str) {
             case "PASAR":
-                getActPlayer().plusFails();
+                getActPlayer().lessFails();
+                if (getActPlayer().getFails() < 0)
+                    playing.remove(getActPlayer());
+                if (playing.size() == 1)
+                    gameActive = false;
                 break;
             case "SALIR":
                 gameActive = false;
