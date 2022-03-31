@@ -19,6 +19,8 @@
 *.tar.gz
 *.rar
 
+*.properties
+
 # Private files
 nbproject/private/
 dist/
