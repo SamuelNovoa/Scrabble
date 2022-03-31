@@ -2,6 +2,7 @@ package scrabble;
 
 import io.In;
 import io.Out;
+import static io.Out.Color.*;
 import java.io.UnsupportedEncodingException;
 import ui.Menu;
 
@@ -48,13 +49,16 @@ public class Scrabble {
                 tp.newGame();
                 break;
             case 1:
-                Out.msg("  REGLAS\n" +
-                               "==========\n\n" +
-                               "1.- La primera palabra deberá tener al menos una de las letras en la coordenada 11 11\n" +
-                               "2.- Cada jugador puede pasar hasta 3 veces antes de ser eliminado\n" +
-                               "3.- Para usar el ' * ' (comodín) se escribe el caracter directamente en el lugar que ocuparía la letra\n" +
-                               "4.- Casillas premiadas:\n\t\u2191 - Valor da letra x2\n\t\u21C8 - Valor da letra x3\n\t\u2191\u2191\u2191 - Valor da letra x4\n\t\u25B2 - Valor da palabra x2\n" +
-                                "5.- \n");
+                Out.clear();
+                Out.msg(Out.toColor("█▀▄ █▀▀ ▄▀▀▀ █░░ ▄▀▄ ▄▀▀\n", GREEN) + 
+                        Out.toColor("█▀▄ █▀▀ █░▀█ █░░ █▄█ ░▀▄\n", GREEN) +
+                        Out.toColor("▀░▀ ▀▀▀  ▀▀░ ▀▀▀ ▀░▀ ▀▀░\n\n", GREEN));
+                
+                Out.msg("1.- La primera palabra deberá tener al menos una de las letras en la coordenada 11 11\n" +
+                        "2.- Cada jugador puede pasar hasta 3 veces antes de ser eliminado\n" +
+                        "3.- Para usar el ' * ' (comodín) se escribe el caracter directamente en el lugar que ocuparía la letra\n" +
+                        "4.- Casillas premiadas:\n\t\u2191 - Valor da letra x2\n\t\u21C8 - Valor da letra x3\n\t\u2191\u2191\u2191 - Valor da letra x4\n\t\u25B2 - Valor da palabra x2\n" +
+                        "5.- \n");
                 
                 Out.msg("Pulsa enter para continuar");
                 In.pressToContinue();
