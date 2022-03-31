@@ -5,6 +5,7 @@ import io.In;
 import io.Out;
 import io.Out.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 import static prizes.Prizes.*;
@@ -267,15 +268,26 @@ public class TableTop {
     }
     
     private void printResults() {
-        String[][] results = new String[players.size()][2];
+        Random rnd = new Random();
+        Color color = validColors[rnd.nextInt(validColors.length)];
         
-        for (int i = 0; i < results.length; i++) {
-            Player player = players.get(i);
+        Out.msg("\n\n\n");
+        Out.msg(Out.toColor("█▀▄ █▀▀ ▄▀▀ █ █ █░░ ▀█▀ ▄▀▄ █▀▄ █▀█ ▄▀▀\n", color)
+                         + Out.toColor("█▀▄ █▀▀ ░▀▄ █ █ █░░  █  █▄█ █ █ █ █ ░▀▄\n", color)
+                         + Out.toColor("▀░▀ ▀▀▀ ▀▀░ ▀▀▀ ▀▀▀  ▀  ▀░▀ ▀▀░ ▀▀▀ ▀▀░\n\n", color));
+        
+        String[][] results = new String[players.size()+1][2];
+        results[0][0] = "Jugador";
+        results[0][1] = "Puntos";
+        
+        // Ordenar results por los puntos de los jugadores
+        
+        for (int i = 1; i < results.length; i++) {
+            Player player = players.get(i-1);
             results[i][0] = player.getName();
             results[i][1] = Integer.toString(player.getPoints());
         }
         
-        Out.printArr(results);
-            
+        Out.printArr(results, color);
     }
 }
