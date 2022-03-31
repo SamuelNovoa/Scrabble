@@ -20,9 +20,9 @@
 *.rar
 
 # Private files
-nbproject/private/*
+nbproject/private/
+dist/
+build/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-dist/*
-build/
+hs_err_pid
