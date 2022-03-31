@@ -20,17 +20,19 @@ public class Player implements Comparable<Player> {
     private int points;
     private int fails;
     private String[] letters;
+    private TableTop tp;
     
     /**
      * Constructor do xogador.
      * 
      * @param name Nome do xogador
      */
-    public Player(String name) {
+    public Player(String name, TableTop tp) {
         this.NAME = name;
         this.points = 0;
         this.fails = 3;
-        this.letters = TableTop.pickLetter(7);
+        this.letters = tp.pickLetter(7);
+        this.tp = tp;
         Arrays.sort(letters);
     }
 
@@ -119,7 +121,7 @@ public class Player implements Comparable<Player> {
     public void pickWord(String[] word) {
         for (int i = 0, j = 0; (i < word.length) && (j < letters.length); j++) {
             if (word[i].equals(letters[j])) {
-                letters[j] = TableTop.pickLetter();
+                letters[j] = tp.pickLetter();
                 i++;
             }
         }

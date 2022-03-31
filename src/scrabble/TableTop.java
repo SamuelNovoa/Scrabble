@@ -26,8 +26,8 @@ public class TableTop {
         Out.Color.CYAN,
     };
     
-    private static Stack<String> lettersPool;
-    private static String[] validLetters = {"A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","C","C","C","C","C","CH","D","D","D","D","D","D",
+    private Stack<String> lettersPool;
+    private String[] validLetters = {"A","A","A","A","A","A","A","A","A","A","A","A","A","A","B","B","B","C","C","C","C","C","CH","D","D","D","D","D","D",
         "E","E","E","E","E","E","E","E","E","E","E","E","E","F","F","G","G","H","H","I","I","I","I","I","I","I","J","L","L","L","L","L","L","LL","M","M","M","M","N","N",
         "N","N","N","N","Ñ","O","O","O","O","O","O","O","O","O","O","P","P","P","Q","R","R","R","R","R","R","RR","S","S","S","S","S","S","S","T","T","T","T",
         "T","U","U","U","U","U","U","U","V","V","X","Y","Z","*", "*"};
@@ -41,11 +41,17 @@ public class TableTop {
     private boolean gameActive;
     private String logo;
     
-    public static String pickLetter() {
-        return lettersPool.pop();
+    public String pickLetter() {
+        String letter = lettersPool.pop();
+        if (lettersPool.empty()) {
+            Out.err("¡No quedan fichas!");
+            gameActive = false;
+        }
+        
+        return letter;
     }
     
-    public static String[] pickLetter(int num) {
+    public String[] pickLetter(int num) {
         String[] res = new String[num];
         for (int i = 0; i < num; i++)
             res[i] = lettersPool.pop();
@@ -104,7 +110,7 @@ public class TableTop {
         
         for (int i = 0; i < playersNum; i++) {
             Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
-            players.add(new Player(In.getString()));
+            players.add(new Player(In.getString(), this));
         }
         playing = (ArrayList<Player>) players.clone();
         
@@ -115,7 +121,7 @@ public class TableTop {
             nextRound();
         
         printResults();
-        Out.msg("Pulsa enter para continuar.");
+        Out.msg("Pulsa enter para continuar.", false);
         In.pressToContinue();
     }
     
@@ -158,8 +164,9 @@ public class TableTop {
     private void nextRound() {
         print();
         
-        Out.msg(validLetters.length + " : " + lettersPool.size());
-        Out.msg("¡Turno de " + getActPlayer().getName() + "!\n" + "Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
+        
+        Out.msg("\t¡Turno de " + getActPlayer().getName() + "!\n\n" + "Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
+        Out.msg("Fichas restantes: " + lettersPool.size() + "/" + validLetters.length);
         Out.printArr(new String[][] { getActPlayer().getLetters() }, validColors[playerActive]);
         
         boolean res = false;
@@ -271,17 +278,17 @@ public class TableTop {
         Random rnd = new Random();
         Color color = validColors[rnd.nextInt(validColors.length)];
         
-        Out.msg("\n\n\n");
+        Out.clear();
         Out.msg(Out.toColor("█▀▄ █▀▀ ▄▀▀ █ █ █░░ ▀█▀ ▄▀▄ █▀▄ █▀█ ▄▀▀\n", color)
-                         + Out.toColor("█▀▄ █▀▀ ░▀▄ █ █ █░░  █  █▄█ █ █ █ █ ░▀▄\n", color)
-                         + Out.toColor("▀░▀ ▀▀▀ ▀▀░ ▀▀▀ ▀▀▀  ▀  ▀░▀ ▀▀░ ▀▀▀ ▀▀░\n\n", color));
+              + Out.toColor("█▀▄ █▀▀ ░▀▄ █ █ █░░  █  █▄█ █ █ █ █ ░▀▄\n", color)
+              + Out.toColor("▀░▀ ▀▀▀ ▀▀░ ▀▀▀ ▀▀▀  ▀  ▀░▀ ▀▀░ ▀▀▀ ▀▀░\n\n", color));
         
         String[][] results = new String[players.size()+1][2];
         results[0][0] = "Jugador";
         results[0][1] = "Puntos";
         
         // Ordenar results por los puntos de los jugadores
-        
+        players.sort(null);
         for (int i = 1; i < results.length; i++) {
             Player player = players.get(i-1);
             results[i][0] = player.getName();
@@ -289,5 +296,6 @@ public class TableTop {
         }
         
         Out.printArr(results, color);
+        Out.msg("");
     }
 }

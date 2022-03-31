@@ -12,16 +12,16 @@ import io.Out;
  * @author a21samuelnc
  */
 public enum Prizes {
-    PRIZE_LETTER_2('\u2726', 5),
-    PRIZE_LETTER_3('\u2736', 4),
-    PRIZE_LETTER_4('\u2737', 3),
-    PRIZE_WORD_2('\u2739', 2);
+    PRIZE_LETTER_2("\u2191", 5),
+    PRIZE_LETTER_3("\u21C8", 4),
+    PRIZE_LETTER_4("\u2191\u2191\u2191", 3),
+    PRIZE_WORD_2("\u25B2", 2);
 
     private String icon;
     private int count;
     
-    Prizes(char icon, int count) {
-        this.icon = Out.toColor(Character.toString(icon), Out.Color.PURPLE);
+    Prizes(String icon, int count) {
+        this.icon = Out.toColor(icon, Out.Color.PURPLE);
         this.count = count;
     }
     

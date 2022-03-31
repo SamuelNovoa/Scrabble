@@ -8,6 +8,7 @@ package words;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import prizes.Prizes;
 import scrabble.ErrorCode;
 import static scrabble.ErrorCode.*;
 import scrabble.TableTop;
@@ -55,14 +56,28 @@ public class Word {
             for (int i = 0; i < letters.length && valid != -1; i++) {
                 xIndex = direction ? (pos[0] + i) : pos[0];
                 yIndex = direction ? pos[1] : (pos[1] + i);
-
-                if (tp.get(xIndex, yIndex).equals("")) {
+                
+                String ch = tp.get(xIndex, yIndex);
+                boolean isWhiteOrPrize = false;
+                
+                if (ch.equals(""))
+                    isWhiteOrPrize = true;
+                else {
+                    for (Prizes prize : Prizes.values()) {
+                        if (ch.equals(prize.getIcon())) {
+                            isWhiteOrPrize = true;
+                            letters[i].setPrize(prize);
+                        }
+                    }
+                }
+                
+                if (isWhiteOrPrize) {
                     hasNewLetters = true;
                     letters[i].setNewLetter(true);
                     if (xIndex == 11 && yIndex == 11)
                         valid = 1;
                 } else {
-                    if (tp.get(xIndex, yIndex).equals(letters[i].getLetter())) {
+                    if (ch.equals(letters[i].getLetter()) || ch.equals("*")) {
                         valid = 1;
                     } else
                         valid = -1;
@@ -87,8 +102,7 @@ public class Word {
             xIndex = direction ? (pos[0] + i) : pos[0];
             yIndex = direction ? (pos[1]) : pos[1] + i;
             
-            if (tp.get(xIndex, yIndex).equals(""))
-                tp.set(xIndex, yIndex, letters[i].getLetter());
+            tp.set(xIndex, yIndex, letters[i].getLetter());
         }
         
         tp.getActPlayer().pickWord(clear());
@@ -108,7 +122,7 @@ public class Word {
         
         return points;
     }
-    
+
     private String[] clear() {
         List<String> clearLetters = new ArrayList<>();
         
