@@ -5,7 +5,6 @@ import io.In;
 import io.Out;
 import io.Out.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Stack;
 import static prizes.Prizes.*;
