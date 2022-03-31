@@ -49,10 +49,12 @@ public class Scrabble {
                 break;
             case 1:
                 Out.msg("  REGLAS\n" +
-                    "==========\n\n" +
-                    "1.- La primera palabra deberá ponerse en las coordenadas 11 11\n" +
-                    "2.- Cada jugador puede pasar hasta 3 veces antes de ser eliminado\n" +
-                    "3.- \n");
+                               "==========\n\n" +
+                               "1.- La primera palabra deberá tener al menos una de las letras en la coordenada 11 11\n" +
+                               "2.- Cada jugador puede pasar hasta 3 veces antes de ser eliminado\n" +
+                               "3.- Para usar el ' * ' (comodín) se escribe el caracter directamente en el lugar que ocuparía la letra\n" +
+                               "4.- Casillas premiadas:\n\t\u2726 - Valor da letra x2\n\t\u2736 - Valor da letra x3\n\t\u2737 - Valor da letra x4\n\t\u2739 - Valor da palabra x2\n" +
+                                "5.- \n");
                 
                 Out.msg("Pulsa enter para continuar");
                 In.pressToContinue();
