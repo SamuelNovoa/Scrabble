@@ -294,4 +294,5 @@ public class TableTop {
         Out.printArr(results, color);
         Out.msg("");
     }
+    
 }
