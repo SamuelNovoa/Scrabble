@@ -110,7 +110,7 @@ public class TableTop {
         Out.msg("\n");
         gameActive = true;
         
-        while (gameActive)
+        while (gameActive && !playing.isEmpty())
             nextRound();
         
         printResults();
@@ -185,8 +185,11 @@ public class TableTop {
             }
         }
         
+        if (getActPlayer().getLetters()[6].isEmpty())
+            playing.remove(getActPlayer());
+        
         playerActive++;
-                
+        
         if (playerActive >= playing.size())
             playerActive = 0;
     }

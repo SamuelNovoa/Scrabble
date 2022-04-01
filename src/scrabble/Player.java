@@ -105,10 +105,11 @@ public class Player implements Comparable<Player> {
         Arrays.sort(word);
         
         for (int i = 0, j = 0; (i < word.length) && (j < letters.length); j++) {
-            if (word[i].equals(letters[j]))
-                i++;
-            else
-                correct = false;
+            if (!letters[j].isEmpty())
+                if (word[i].equals(letters[j]))
+                     i++;
+                else
+                    correct = false;
         }
         
         return correct;
