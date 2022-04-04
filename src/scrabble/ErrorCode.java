@@ -6,10 +6,12 @@
 package scrabble;
 
 /**
- *
- * @author a21samuelnc
+ *  Tipo enumerado que define os posibles erros do programa.
+ * 
+ * @author Iago Oitavén Fraga e Samuel Novoa Comesaña
  */
 public enum ErrorCode {
+    ERR_INVALID_SYNTAX("¡Error! Tienes que introducir una línea con el formato \"PALABRA POS_X[INT] POS_Y[INT] DIRECCION[H|V]\""),
     ERR_INVALID_POS("Posición no válida."),
     ERR_NOT_SPACE("No queda suficiente espacio."),
     ERR_NOT_MATCH("No hay ninguna letra que coincida."),
@@ -20,7 +22,7 @@ public enum ErrorCode {
     private String error;
     
     /**
-     * Constrictor da clase ErrorCode
+     * Constructor do tipo enumerado
      * 
      * @param error Tipo de error definido
      */

@@ -14,8 +14,9 @@ import static scrabble.ErrorCode.*;
 import scrabble.TableTop;
 
 /**
- *
- * @author a21samuelnc
+ * Clase destinada a modelar as palabras que introduce o usuario.
+ * 
+ * @author Iago Oitavén Fraga e Samuel Novoa Comesaña
  */
 public class Word {
     private Letter[] letters;

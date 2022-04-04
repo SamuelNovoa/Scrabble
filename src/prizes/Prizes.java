@@ -5,11 +5,12 @@
  */
 package prizes;
 
-import io.Out;
+import libs.io.Out;
 
 /**
- *
- * @author a21samuelnc
+ * Tipo enumerado que define os posibles premios.   
+ * 
+ * @author Iago Oitavén Fraga e Samuel Novoa Comesaña
  */
 public enum Prizes {
     PRIZE_LETTER_2("\u2191", 5),
@@ -21,7 +22,7 @@ public enum Prizes {
     private int count;
     
     /**
-     * Constructor da clase
+     * Constructor do tipo enumerado
      * 
      * @param icon Icono que se vai mostrar na casilla de premio
      * @param count Cantidade de casillas que se vai usar dese tipo

@@ -7,13 +7,13 @@
 
 package scrabble;
 
-import io.Out.Color;
+import libs.io.Out.Color;
 import java.util.Arrays;
 
 /**
  * Clase que modela a información dun xogador.
  * 
- * @author Iago Oitavén Fraga, Samuel Novoa Comesaña
+ * @author Iago Oitavén Fraga e Samuel Novoa Comesaña
  */
 public class Player implements Comparable<Player> {
     private final String NAME;

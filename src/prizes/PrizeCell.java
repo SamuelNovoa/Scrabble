@@ -6,8 +6,9 @@
 package prizes;
 
 /**
- *
- * @author a21samuelnc
+ * Clase destinada a modelar ás casiñas de premio.
+ * 
+ * @author Iago Oitavén Fraga e Samuel Novoa Comesaña
  */
 public class PrizeCell {
     private Prizes type;

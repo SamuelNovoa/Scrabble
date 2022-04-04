@@ -9,8 +9,9 @@ import java.util.Arrays;
 import prizes.Prizes;
 
 /**
- *
- * @author a21samuelnc
+ * Clase destinada a modelar as letras que compóñen as palabras.
+ * 
+ * @author Iago Oitavén Fraga e Samuel Novoa Comesaña
  */
 public class Letter {
     private String letter;

@@ -1,28 +1,35 @@
 package scrabble;
 
 import prizes.PrizeCell;
-import io.In;
-import io.Out;
-import io.Out.Color;
+import libs.io.In;
+import libs.io.Out;
+import libs.io.Out.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
 import static prizes.Prizes.*;
 import static scrabble.ErrorCode.*;
-import tools.Matrix;
+import libs.tools.Matrix;
 import words.Word;
 
 /**
- *
- * @author a21iagoof
+ * Clase destinada a modelar o taboleiro. Xestiona a lista de xogadores, as casillas y a saída en pantalla.
+ * 
+ * @author Iago Oitavén Fraga y Samuel Novoa Comesaña
  */
 public class TableTop {
+    /**
+     * Posibles resultados da execución dun comando.
+     */
     private enum CmdResult {
         CMD_NOT_CMD,
         CMD_CONTINUE,
         CMD_NEXT_ROUND
     }
     
+    /**
+     * Cores válidos para os xogadores e o logo
+     */
     private Out.Color[] validColors = {
         Out.Color.PURPLE,
         Out.Color.RED,
@@ -46,18 +53,9 @@ public class TableTop {
     private boolean gameActive;
     private String logo;
     
-    public String pickLetter() {
-        return lettersPool.isEmpty() ? "" : lettersPool.pop();
-    }
-    
-    public String[] pickLetter(int num) {
-        String[] res = new String[num];
-        for (int i = 0; i < num; i++)
-            res[i] = lettersPool.pop();
-        
-        return res;
-    }
-    
+    /**
+     * Constructor da clase.
+     */
     public TableTop() {
         this.playersNum = 2;
         this.gameActive = false;
@@ -70,30 +68,90 @@ public class TableTop {
              + Out.toColor("▀▀░ ░▀▀ ▀░▀ ▀░▀ ▀▀░ ▀▀░ ▀▀▀ ▀▀▀\n\n", color);
     }
     
+    /**
+     * Método para obter unha nova ficha.
+     * 
+     * @return A nova String obtida
+     */
+    public String pickLetter() {
+        return lettersPool.isEmpty() ? "" : lettersPool.pop();
+    }
+    
+    /**
+     * Método para obter varias fichas directamente.
+     * 
+     * @param num Número de fichas a obter
+     * @return Array de Strings coas novas fichas obtidas
+     */
+    public String[] pickLetter(int num) {
+        String[] res = new String[num];
+        for (int i = 0; i < num; i++)
+            res[i] = lettersPool.pop();
+        
+        return res;
+    }
+    
+    /**
+     * Método para obter o logo do Scrabble.
+     * 
+     * @return O logo do Scrabble
+     */
     public String getLogo() {
         return logo;
     }
     
+    /**
+     * Método para establecer o número de xogadores.
+     * 
+     * @param playersNum O novo número de xogadores
+     */
     public void setPlayers(int playersNum) {
         this.playersNum = playersNum;
     }
     
+    /**
+     * Método para obter o tamaño do taboleiro (Non é necesario, pero permitiría ampliar
+     * a un taboleiro máis grande)
+     * @return 
+     */
     public int size() {
         return tableTop.length;
     }
     
+    /**
+     * Método para obter unha determinada posición do taboleiro.
+     * 
+     * @param row Fila a obter
+     * @param column Columna a obter
+     * @return A String almacenada nesa posición
+     */
     public String get(int row, int column) {
         return tableTop[row][column];
     }
     
+    /**
+     * Método para establecer unha String nunha determinada posición do taboleiro.
+     * 
+     * @param row Fila onde establecer a String
+     * @param column Columna onde establecer a String
+     * @param data String a establecer
+     */
     public void set(int row, int column, String data) {
         tableTop[row][column] = data;
     }
     
+    /**
+     * Método para obter ó xogador activo.
+     * 
+     * @return O xogador activo
+     */
     public Player getActPlayer() {
         return playing.get(playerActive);
     }
     
+    /**
+     * Método para imprimir o taboleiro e a man do xogador activo.
+     */
     public void print() {
         Out.clear();
         Out.msg(logo);
@@ -103,32 +161,35 @@ public class TableTop {
         
         Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
         
-        String lastLetters = "Fichas restantes:\t";
+        String info = "Fichas restantes:\t";
         
         int pct = (int)Math.ceil(((double)lettersPool.size() / (double)validLetters.length) * 100.0);
         int i = 0;
         
         for (; i < Math.ceil(pct / 10); i++)
-            lastLetters += "▰";
+            info += "▰";
         for (; i < 10; i++)
-            lastLetters += "▱";
+            info += "▱";
         
-        lastLetters += "\t" + pct + "% " + lettersPool.size() + " / " + validLetters.length + "\n";
+        info += "\t" + pct + "%\t(" + lettersPool.size() + " / " + validLetters.length + ")\n";
         
-        String fails = "Fallos restantes:\t";
+        info += "Fallos restantes:\t";
         
         i = 0;
         for (; i < getActPlayer().getFails(); i++)
-            fails += "▰";
+            info += "▰";
         for (; i < 3; i++)
-            fails += "▱";
+            info += "▱";
         
-        fails += "\t\t" + getActPlayer().getFails() + " / 3\n\n";
+        info += "\t\t" + getActPlayer().getFails() + " / 3\n\n";
         
-        Out.printArr(new String[] {lastLetters, fails}, getActPlayer().getColor());
+        Out.msg(info);
         Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
     }
     
+    /**
+     * Método para iniciar unha nova partida.
+     */
     public void newGame() {
         init();
         Out.clear();
@@ -151,6 +212,11 @@ public class TableTop {
         In.pressToContinue();
     }
     
+    /**
+     * Método para eliminar un xogador do xogo.
+     * 
+     * @param player O xogador a eliminar
+     */
     private void removePlayer(Player player) {
         playing.remove(player);
         
@@ -161,6 +227,9 @@ public class TableTop {
             playerActive = 0;
     }
     
+    /**
+     * Método para inicializar valores antes dunha nova partida.
+     */
     private void init() {
         players = new ArrayList<>();
         lettersPool = new Stack<>();
@@ -198,6 +267,9 @@ public class TableTop {
         playerActive = rnd.nextInt(playersNum);
     }
     
+    /**
+     * Método para xestionar unha ronda.
+     */
     private void nextRound() {
         print();
         
@@ -214,7 +286,7 @@ public class TableTop {
             else if (cmdResult == CmdResult.CMD_NOT_CMD) {
                 String[] tokens = letters.split(" ");
                 if (tokens.length != 4 || (!tokens[3].toUpperCase().equals("H") && !tokens[3].toUpperCase().equals("V"))) {
-                    Out.err("¡Error! Tienes que introducir una línea con el formato \"PALABRA POS_X[INT] POS_Y[INT] DIRECCION[H|V]\"");
+                    Out.err(ERR_INVALID_SYNTAX.getError());
                 } else {
                     byte[] pos = { Byte.parseByte(tokens[2]), Byte.parseByte(tokens[1]) };
                     boolean dir = !tokens[3].toUpperCase().equals("H");
@@ -236,6 +308,13 @@ public class TableTop {
             playerActive = 0;
     }
     
+    /**
+     * Método para xestionar os comanos.
+     * 
+     * @param str Comando a executar
+     * @return CMD_NOT_CMD se a String non é un comando, CMD_CONTINUE se o comando permite a continuación da ronda
+     * e CMD_NEXT_ROUND se a ronda debe rematar trala execución do comando.
+     */
     private CmdResult executeCmd(String str) {
         CmdResult res = CmdResult.CMD_NEXT_ROUND;
         
@@ -262,7 +341,7 @@ public class TableTop {
         return res;
     }
     
-        /**
+    /**
      * Coloca a palabra no taboleiro
      * @param word Palabra separada en letras para colocar no taboleiro
      * @return true - Si se colocou a palabra, false se non
@@ -272,9 +351,16 @@ public class TableTop {
         ErrorCode code = word.check();
         
         if (code == OK) {
-            getActPlayer().plusPoints(word.getPoints());
+            int points = word.getPoints();
+            
+            getActPlayer().plusPoints(points);
             word.store();
             res = true;
+            
+            Out.clear();
+            Out.msg(logo + "\n\nPuntuación obtenida: " + points + "\n\nPulsa enter para continuar.");
+            
+            In.pressToContinue();
         } else
             Out.err(code.getError());
             
@@ -316,6 +402,9 @@ public class TableTop {
         return prizeCell;
     }
     
+    /**
+     * Método para imprimir ás puntuacións.
+     */
     private void printResults() {
         Random rnd = new Random();
         Color color = validColors[rnd.nextInt(validColors.length)];
@@ -346,5 +435,4 @@ public class TableTop {
         Out.printArr(results, color);
         Out.msg("");
     }
-    
 }
