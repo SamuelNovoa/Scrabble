@@ -220,9 +220,9 @@ public class Word {
                             this.prize = true;
                         else 
                             letters[i].setPrize(prize);
+                        
+                        isWhiteOrPrize = true;
                     }
-                    
-                    isWhiteOrPrize = true;
                 }
             }
 
