@@ -101,9 +101,10 @@ public class TableTop {
         Out.clear();
         Out.msg(logo);
         
+        Matrix.shuffle(validColors);
         for (int i = 0; i < playersNum; i++) {
             Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
-            players.add(new Player(In.getString(), this));
+            players.add(new Player(In.getString(), this, validColors[i]));
         }
         playing = (ArrayList<Player>) players.clone();
         
@@ -157,10 +158,10 @@ public class TableTop {
     private void nextRound() {
         print();
         
-        
-        Out.msg("\t¡Turno de " + getActPlayer().getName() + "!\n\n" + "Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
+        Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
+        Out.msg("Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
         Out.msg("Fichas restantes: " + lettersPool.size() + "/" + validLetters.length);
-        Out.printArr(new String[][] { getActPlayer().getLetters() }, validColors[playerActive]);
+        Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
         
         boolean res = false;
         while (!res) {

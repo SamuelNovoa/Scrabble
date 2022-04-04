@@ -170,7 +170,7 @@ public class Word {
                 if (xIndex == 11 && yIndex == 11)
                     valid = 1;
             } else {
-                if (ch.equals(letters[i].getLetter()) || ch.equals("*")) {
+                if (ch.equals(letters[i].getLetter())) {
                     valid = 1;
                 } else
                     valid = -1;

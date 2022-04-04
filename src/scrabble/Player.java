@@ -7,6 +7,7 @@
 
 package scrabble;
 
+import io.Out.Color;
 import java.util.Arrays;
 
 /**
@@ -21,18 +22,20 @@ public class Player implements Comparable<Player> {
     private int fails;
     private String[] letters;
     private TableTop tp;
+    private Color color;
     
     /**
      * Constructor do xogador.
      * 
      * @param name Nome do xogador
      */
-    public Player(String name, TableTop tp) {
+    public Player(String name, TableTop tp, Color color) {
         this.NAME = name;
         this.points = 0;
         this.fails = 3;
         this.letters = tp.pickLetter(7);
         this.tp = tp;
+        this.color = color;
         Arrays.sort(letters);
     }
 
@@ -95,6 +98,14 @@ public class Player implements Comparable<Player> {
       */
     public String[] getLetters() {
         return letters;
+    }
+
+    /**
+     * Método para obter o color asignado ó xogador
+     * @return Color do xogador
+     */
+    public Color getColor() {
+        return color;
     }
     
     /**
