@@ -89,7 +89,10 @@ public class Player implements Comparable<Player> {
     }
      
     
-     
+     /**
+      * Devolve o array coas letras do xogador
+      * @return Array de String
+      */
     public String[] getLetters() {
         return letters;
     }
@@ -106,9 +109,10 @@ public class Player implements Comparable<Player> {
         
         for (int i = 0, j = 0; (i < word.length) && (j < letters.length); j++) {
             if (!letters[j].isEmpty())
-                if (word[i].equals(letters[j]))
+                if (word[i].equals(letters[j])) {
                      i++;
-                else
+                     correct = true;
+                } else
                     correct = false;
         }
         

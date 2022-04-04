@@ -185,7 +185,8 @@ public class TableTop {
             }
         }
         
-        if (getActPlayer().getLetters()[6].isEmpty())
+//        if (getActPlayer().getLetters()[6].isEmpty())
+        if (getActPlayer().getLetters()[getActPlayer().getLetters().length-1].isEmpty())
             playing.remove(getActPlayer());
         
         playerActive++;
@@ -276,19 +277,25 @@ public class TableTop {
         
         Out.clear();
         Out.msg(Out.toColor("█▀▄ █▀▀ ▄▀▀ █ █ █░░ ▀█▀ ▄▀▄ █▀▄ █▀█ ▄▀▀\n", color)
-              + Out.toColor("█▀▄ █▀▀ ░▀▄ █ █ █░░  █  █▄█ █ █ █ █ ░▀▄\n", color)
-              + Out.toColor("▀░▀ ▀▀▀ ▀▀░ ▀▀▀ ▀▀▀  ▀  ▀░▀ ▀▀░ ▀▀▀ ▀▀░\n\n", color));
+                   + Out.toColor("█▀▄ █▀▀ ░▀▄ █ █ █░░  █  █▄█ █ █ █ █ ░▀▄\n", color)
+                   + Out.toColor("▀░▀ ▀▀▀ ▀▀░ ▀▀▀ ▀▀▀  ▀  ▀░▀ ▀▀░ ▀▀▀ ▀▀░\n\n", color));
         
-        String[][] results = new String[players.size()+1][2];
-        results[0][0] = "Jugador";
-        results[0][1] = "Puntos";
+        String[][] results = new String[players.size()+1][3];
+        results[0][0] = "";
+        results[0][1] = "Jugador";
+        results[0][2] = "Puntos";
         
         // Ordenar results por los puntos de los jugadores
         players.sort(null);
         for (int i = 1; i < results.length; i++) {
             Player player = players.get(i-1);
-            results[i][0] = player.getName();
-            results[i][1] = Integer.toString(player.getPoints());
+            if ((i != 1) && (player.getPoints() == Integer.parseInt(results[i-1][2])))
+                results[i][0] = results[i-1][0];
+            else
+                results[i][0] = Integer.toString(i) + "º";
+            
+            results[i][1] = player.getName();
+            results[i][2] = Integer.toString(player.getPoints());
         }
         
         Out.printArr(results, color);
