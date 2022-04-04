@@ -100,6 +100,11 @@ public class TableTop {
         
         Out.printArr(tableTop, Color.YELLOW, 3);
         Out.msg("\n");
+        
+        Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
+        Out.msg("Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
+        Out.msg("Fichas restantes: " + lettersPool.size() + "/" + validLetters.length);
+        Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
     }
     
     public void newGame() {
@@ -174,11 +179,6 @@ public class TableTop {
     private void nextRound() {
         print();
         
-        Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
-        Out.msg("Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
-        Out.msg("Fichas restantes: " + lettersPool.size() + "/" + validLetters.length);
-        Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
-        
         boolean stop = false;
         while (!stop) {
             Out.msg("\n\n > ", false);
@@ -187,6 +187,8 @@ public class TableTop {
             
             if (cmdResult == CmdResult.CMD_NEXT_ROUND)
                 stop = true;
+            else if (cmdResult == CmdResult.CMD_CONTINUE)
+                print();
             else if (cmdResult == CmdResult.CMD_NOT_CMD) {
                 String[] tokens = letters.split(" ");
                 if (tokens.length != 4 || (!tokens[3].toUpperCase().equals("H") && !tokens[3].toUpperCase().equals("V"))) {
