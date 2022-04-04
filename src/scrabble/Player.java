@@ -108,6 +108,10 @@ public class Player implements Comparable<Player> {
         return color;
     }
     
+    public boolean hasLetters() {
+        return !letters[6].isEmpty();
+    }
+    
     /**
      * Comprpbar si o xogador ten as letras necesarias para por a palabra
      * @param word Array coas letras que o xogador coloca sobre a mesa

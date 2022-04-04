@@ -101,7 +101,6 @@ public class TableTop {
         Out.clear();
         Out.msg(logo);
         
-        Matrix.shuffle(validColors);
         for (int i = 0; i < playersNum; i++) {
             Out.msg("Introduce el nombre del jugador nº " + (i + 1) + ": ", false);
             players.add(new Player(In.getString(), this, validColors[i]));
@@ -119,10 +118,21 @@ public class TableTop {
         In.pressToContinue();
     }
     
+    private void removePlayer(Player player) {
+        playing.remove(player);
+        
+        if (playing.size() == 1)
+            gameActive = false;
+        
+        if (playerActive >= playing.size())
+            playerActive = 0;
+    }
+    
     private void init() {
         players = new ArrayList<>();
         lettersPool = new Stack<>();
         Matrix.shuffle(validLetters);
+        Matrix.shuffle(validColors);
         
         for (String letter : validLetters)
             lettersPool.push(letter);
@@ -186,9 +196,8 @@ public class TableTop {
             }
         }
         
-//        if (getActPlayer().getLetters()[6].isEmpty())
-        if (getActPlayer().getLetters()[getActPlayer().getLetters().length-1].isEmpty())
-            playing.remove(getActPlayer());
+        if (!getActPlayer().hasLetters())
+            gameActive = false;
         
         playerActive++;
         
@@ -203,9 +212,7 @@ public class TableTop {
             case "PASAR":
                 getActPlayer().lessFails();
                 if (getActPlayer().getFails() < 0)
-                    playing.remove(getActPlayer());
-                if (playing.size() == 1)
-                    gameActive = false;
+                    removePlayer(getActPlayer());
                 break;
             case "SALIR":
                 gameActive = false;

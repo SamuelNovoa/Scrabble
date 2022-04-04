@@ -73,13 +73,10 @@ public class Word {
     }
     
     public int getPoints() {
-        int points = 0;
-
-        if (clear().length == 7)
-            points = 50;
-        else
-            for (Letter letter : letters)
-                points += letter.getPoints();
+        int points = clear().length == 7 ? 50 : 0;
+        
+        for (Letter letter : letters)
+            points += letter.getPoints();
         
         if (prize)
             points *= 2;
