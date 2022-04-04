@@ -27,36 +27,76 @@ public class Letter {
         { new String[] { "Q", "Z", "Ñ" }, 10 }
     };
     
+    /**
+     * Constructor da clase Letter. 
+     * 
+     * @param letter Recibe un char e o pasa a String para crear o obxecto.
+     */
     public Letter(char letter) {
         this(Character.toString(letter));
     }
     
+    /**
+     * Contructor da clase Letter.
+     * 
+     * @param letter String co caracterer para formar a letra
+     */
     public Letter(String letter) {
         this.letter = letter;
         this.newLetter = false;
         this.prize = null;
     }
 
+    /**
+     * Obter a letra
+     * 
+     * @return String 
+     */
     public String getLetter() {
         return letter;
     }
     
+    /**
+     * Verificar se a letra introducida está nas letras dispoñibles polo xogador
+     * 
+     * @return true - Si a letra introducida polo usuario non está na súa pool de letras | false - Se o xogador xa ten a letra
+     */
     public boolean isNewLetter() {
         return newLetter;
     }
 
+    /**
+     * Modificar o atributo
+     * 
+     * @param newLetter true - false
+     */
     public void setNewLetter(boolean newLetter) {
         this.newLetter = newLetter;
     }
     
+    /**
+     * Devolve o premio dunha casilla premiada
+     * 
+     * @return Obxeto Prizes co caracter asignado ao premio e o seu valor
+     */
     public Prizes getPrize() {
         return prize;
     }
 
+    /**
+     * Introducir o valor dos premios
+     * 
+     * @param prize Obxeto Prizes co caracter asignado ao premio e o seu valor
+     */
     public void setPrize(Prizes prize) {
         this.prize = prize;
     }
     
+    /**
+     * Obter os puntos correspondentes a cada casilla, as premiadas e as que non o están
+     * 
+     * @return int cos puntos de cada letra
+     */
     public int getPoints() {
         int points = 0;
         
