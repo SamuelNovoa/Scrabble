@@ -103,7 +103,18 @@ public class TableTop {
         
         Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
         Out.msg("Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
-        Out.msg("Fichas restantes: " + lettersPool.size() + "/" + validLetters.length);
+        Out.msg("Fichas restantes:\t", false);
+        
+        int pct = (int)Math.ceil((lettersPool.size() / validLetters.length) * 100);
+        int i = 0;
+        
+        for (; i < Math.ceil(pct / 10); i++)
+            Out.msg("▰", false);
+        for (; i < 10; i++)
+            Out.msg("▱", false);
+        
+        Out.msg(" " + pct + "% " + lettersPool.size() + "/" + validLetters.length + "\n");
+        
         Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
     }
     
