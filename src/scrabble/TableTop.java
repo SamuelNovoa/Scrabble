@@ -16,7 +16,13 @@ import words.Word;
  *
  * @author a21iagoof
  */
-public class TableTop { 
+public class TableTop {
+    private enum CmdResult {
+        CMD_NOT_CMD,
+        CMD_CONTINUE,
+        CMD_NEXT_ROUND
+    }
+    
     private Out.Color[] validColors = {
         Out.Color.PURPLE,
         Out.Color.RED,
@@ -173,14 +179,15 @@ public class TableTop {
         Out.msg("Fichas restantes: " + lettersPool.size() + "/" + validLetters.length);
         Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
         
-        boolean res = false;
-        while (!res) {
+        boolean stop = false;
+        while (!stop) {
             Out.msg("\n\n > ", false);
             String letters = In.getString().toUpperCase();
+            CmdResult cmdResult = executeCmd(letters);
             
-            if (executeCmd(letters))
-                res = true;
-            else {
+            if (cmdResult == CmdResult.CMD_NEXT_ROUND)
+                stop = true;
+            else if (cmdResult == CmdResult.CMD_NOT_CMD) {
                 String[] tokens = letters.split(" ");
                 if (tokens.length != 4 || (!tokens[3].toUpperCase().equals("H") && !tokens[3].toUpperCase().equals("V"))) {
                     Out.err("¡Error! Tienes que introducir una línea con el formato \"PALABRA POS_X[INT] POS_Y[INT] DIRECCION[H|V]\"");
@@ -191,7 +198,7 @@ public class TableTop {
                     Word word = new Word(tokens[0], pos, dir, this);
 
                     if (setWord(word))
-                        res = true;
+                        stop = true;
                 }
             }
         }
@@ -205,8 +212,8 @@ public class TableTop {
             playerActive = 0;
     }
     
-    private boolean executeCmd(String str) {
-        boolean res = true;
+    private CmdResult executeCmd(String str) {
+        CmdResult res = CmdResult.CMD_NEXT_ROUND;
         
         switch (str) {
             case "PASAR":
@@ -221,9 +228,10 @@ public class TableTop {
                 printResults();
                 Out.msg("Pulsa enter para continuar. ", false);
                 In.pressToContinue();
+                res = CmdResult.CMD_CONTINUE;
                 break;
             default:
-                res = false;
+                res = CmdResult.CMD_NOT_CMD;
                 break;
         }
         
