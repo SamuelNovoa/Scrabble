@@ -102,19 +102,31 @@ public class TableTop {
         Out.msg("\n");
         
         Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
-        Out.msg("Puntuación: " + getActPlayer().getPoints() + "\tPasar disponibles: " + getActPlayer().getFails() + "\n");
-        Out.msg("Fichas restantes:\t", false);
         
-        int pct = (int)Math.ceil((lettersPool.size() / validLetters.length) * 100);
+        String data = "";
+        data += "Fichas restantes:\t";
+        
+        int pct = (int)Math.ceil(((double)lettersPool.size() / (double)validLetters.length) * 100.0);
         int i = 0;
         
         for (; i < Math.ceil(pct / 10); i++)
-            Out.msg("▰", false);
+            data += "▰";
         for (; i < 10; i++)
-            Out.msg("▱", false);
+            data += "▱";
         
-        Out.msg(" " + pct + "% " + lettersPool.size() + "/" + validLetters.length + "\n");
+        data += "\t" + pct + "% " + lettersPool.size() + " / " + validLetters.length + "\n";
         
+        data += "Fallos restantes:\t";
+        
+        i = 0;
+        for (; i < getActPlayer().getFails(); i++)
+            data += "▰";
+        for (; i < 3; i++)
+            data += "▱";
+        
+        data += "\t\t" + getActPlayer().getFails() + " / 3\n\n";
+        
+        Out.printArr(new String[][] {{ data }}, getActPlayer().getColor());
         Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
     }
     
