@@ -14,20 +14,42 @@ public class PrizeCell {
     private int x;
     private int y;
     
+    /**
+     * Constructor da clase
+     * 
+     * @param type Tipo de premio que terá esa casilla. Recibe un Obxeto Prizes
+     * @param x Coordenada X da casillo dentro do taboleiro
+     * @param y Coordenada Y da casillo dentro do taboleiro
+     */
     public PrizeCell(Prizes type, int x, int y) {
         this.type = type;
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Tipo de premio que ten asignado esa casilla
+     * 
+     * @return Tipo do obxecto Prizes
+     */
     public Prizes getType() {
         return type;
     }
 
+    /**
+     * Coordenada X da casilla premiada
+     * 
+     * @return int co valor da coor. X
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Coordenada Y da casilla premiada
+     * 
+     * @return int co valor da coordenada Y
+     */
     public int getY() {
         return y;
     }

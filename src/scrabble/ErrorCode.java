@@ -19,10 +19,20 @@ public enum ErrorCode {
     
     private String error;
     
+    /**
+     * Constrictor da clase ErrorCode
+     * 
+     * @param error Tipo de error definido
+     */
     ErrorCode(String error) {
         this.error = error;
     }
     
+    /**
+     * Mensaxe asociada ao tipo de error
+     * 
+     * @return Develve un String coa mensaxe correspondente ao error
+     */
     public String getError() {
         return error;
     }

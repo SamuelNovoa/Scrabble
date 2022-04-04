@@ -20,15 +20,31 @@ public enum Prizes {
     private String icon;
     private int count;
     
+    /**
+     * Constructor da clase
+     * 
+     * @param icon Icono que se vai mostrar na casilla de premio
+     * @param count Cantidade de casillas que se vai usar dese tipo
+     */
     Prizes(String icon, int count) {
         this.icon = Out.toColor(icon, Out.Color.PURPLE);
         this.count = count;
     }
     
+    /**
+     * Devolve o icono usado para a casilla de premio
+     * 
+     * @return Icono asignado
+     */
     public String getIcon() {
         return icon;
     }
     
+    /**
+     * Devolve a cantidade de ese tipo de obxetos a crear
+     * 
+     * @return 
+     */
     public int getCount() {
         return count;
     }
