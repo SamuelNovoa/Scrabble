@@ -103,30 +103,29 @@ public class TableTop {
         
         Out.msg(Out.toColor("\t¡Turno de " + getActPlayer().getName() + "!\n", getActPlayer().getColor()));
         
-        String data = "";
-        data += "Fichas restantes:\t";
+        String lastLetters = "Fichas restantes:\t";
         
         int pct = (int)Math.ceil(((double)lettersPool.size() / (double)validLetters.length) * 100.0);
         int i = 0;
         
         for (; i < Math.ceil(pct / 10); i++)
-            data += "▰";
+            lastLetters += "▰";
         for (; i < 10; i++)
-            data += "▱";
+            lastLetters += "▱";
         
-        data += "\t" + pct + "% " + lettersPool.size() + " / " + validLetters.length + "\n";
+        lastLetters += "\t" + pct + "% " + lettersPool.size() + " / " + validLetters.length + "\n";
         
-        data += "Fallos restantes:\t";
+        String fails = "Fallos restantes:\t";
         
         i = 0;
         for (; i < getActPlayer().getFails(); i++)
-            data += "▰";
+            fails += "▰";
         for (; i < 3; i++)
-            data += "▱";
+            fails += "▱";
         
-        data += "\t\t" + getActPlayer().getFails() + " / 3\n\n";
+        fails += "\t\t" + getActPlayer().getFails() + " / 3\n\n";
         
-        Out.printArr(new String[][] {{ data }}, getActPlayer().getColor());
+        Out.printArr(new String[] {lastLetters, fails}, getActPlayer().getColor());
         Out.printArr(new String[][] { getActPlayer().getLetters() }, getActPlayer().getColor());
     }
     
