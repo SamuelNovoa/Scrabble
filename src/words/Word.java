@@ -218,11 +218,11 @@ public class Word {
                     if (ch.equals(prize.getIcon())) {
                         if (prize == Prizes.PRIZE_WORD_2)
                             this.prize = true;
-                        else {
-                            isWhiteOrPrize = true;
+                        else 
                             letters[i].setPrize(prize);
-                        }
                     }
+                    
+                    isWhiteOrPrize = true;
                 }
             }
 
