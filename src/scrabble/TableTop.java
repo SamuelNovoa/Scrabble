@@ -217,6 +217,11 @@ public class TableTop {
             case "SALIR":
                 gameActive = false;
                 break;
+            case "PUNTOS":
+                printResults();
+                Out.msg("Pulsa enter para continuar. ", false);
+                In.pressToContinue();
+                break;
             default:
                 res = false;
                 break;
