@@ -14,6 +14,7 @@ public enum ErrorCode {
     ERR_NOT_SPACE("No queda suficiente espacio."),
     ERR_NOT_MATCH("No hay ninguna letra que coincida."),
     ERR_INVALID_LETTER("No tienes las letras necesarias."),
+    ERR_TOO_MUCH_JOKER("Sólo puedes usar un comodín cada turno."),
     OK("");
     
     private String error;

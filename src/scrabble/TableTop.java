@@ -177,7 +177,7 @@ public class TableTop {
                     byte[] pos = { Byte.parseByte(tokens[2]), Byte.parseByte(tokens[1]) };
                     boolean dir = !tokens[3].toUpperCase().equals("H");
 
-                    Word word = new Word(tokens[0], pos, dir);
+                    Word word = new Word(tokens[0], pos, dir, this);
 
                     if (setWord(word))
                         res = true;
@@ -224,11 +224,11 @@ public class TableTop {
      */
     private boolean setWord(Word word) {
         boolean res = false;
-        ErrorCode code = word.check(this);
+        ErrorCode code = word.check();
         
         if (code == OK) {
             getActPlayer().plusPoints(word.getPoints());
-            word.store(this);
+            word.store();
             res = true;
         } else
             Out.err(code.getError());

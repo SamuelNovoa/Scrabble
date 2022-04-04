@@ -22,11 +22,13 @@ public class Word {
     private boolean prize;
     private byte[] pos;
     private boolean direction;
+    private TableTop tp;
     
-    public Word(String letters, byte[] pos, boolean direction) {
+    public Word(String letters, byte[] pos, boolean direction, TableTop tp) {
         this.letters = getWord(letters);
         this.pos = pos;
         this.direction = direction;
+        this.tp = tp;
     }
     
     public int size() {
@@ -37,7 +39,7 @@ public class Word {
         return letters[index];
     }
     
-    public ErrorCode check(TableTop tp) {
+    public ErrorCode check() {
         ErrorCode res = OK;
         
         if (pos[0] < 0 || pos[0] >= tp.size())
@@ -46,55 +48,17 @@ public class Word {
             res = ERR_INVALID_POS;
         else if (pos[direction ? 0 : 1] + letters.length >= tp.size())
             res = ERR_NOT_SPACE;
-        else {
-            byte valid = 0;
-        
-            int xIndex;
-            int yIndex;
-
-            boolean hasNewLetters = false;
-            for (int i = 0; i < letters.length && valid != -1; i++) {
-                xIndex = direction ? (pos[0] + i) : pos[0];
-                yIndex = direction ? pos[1] : (pos[1] + i);
-                
-                String ch = tp.get(xIndex, yIndex);
-                boolean isWhiteOrPrize = false;
-                
-                if (ch.equals(""))
-                    isWhiteOrPrize = true;
-                else {
-                    for (Prizes prize : Prizes.values()) {
-                        if (ch.equals(prize.getIcon())) {
-                            isWhiteOrPrize = true;
-                            letters[i].setPrize(prize);
-                        }
-                    }
-                }
-                
-                if (isWhiteOrPrize) {
-                    hasNewLetters = true;
-                    letters[i].setNewLetter(true);
-                    if (xIndex == 11 && yIndex == 11)
-                        valid = 1;
-                } else {
-                    if (ch.equals(letters[i].getLetter()) || ch.equals("*")) {
-                        valid = 1;
-                    } else
-                        valid = -1;
-                }
-            }
-            
-            if (valid == -1 || valid == 0 || !hasNewLetters)
-                res = ERR_INVALID_POS;
-        }
-        
-        if (!tp.getActPlayer().hasWord(clear()))
+        else if (!isValid()) 
+            res = ERR_INVALID_POS;
+        else if (!tp.getActPlayer().hasWord(clear()))
             res = ERR_INVALID_LETTER;
+        else if (hasTooMuchJoker())
+            res = ERR_TOO_MUCH_JOKER;
         
         return res;
     }
     
-    public void store(TableTop tp) {
+    public void store() {
         int xIndex;
         int yIndex;
         
@@ -159,6 +123,62 @@ public class Word {
         || (firstLetter == 'L' && secondLetter == 'L')
         || (firstLetter == 'R' && secondLetter == 'R'))
             res = true;
+        
+        return res;
+    }
+    
+    private boolean hasTooMuchJoker() {
+        int jokers = 0;
+        
+        for (String ch : clear())
+            if (ch.equals("*"))
+                jokers++;
+        
+        return jokers > 1;
+    }
+    
+    private boolean isValid() {
+        boolean res = true;
+        
+        byte valid = 0;
+        
+        int xIndex;
+        int yIndex;
+
+        boolean hasNewLetters = false;
+        for (int i = 0; i < letters.length && valid != -1; i++) {
+            xIndex = direction ? (pos[0] + i) : pos[0];
+            yIndex = direction ? pos[1] : (pos[1] + i);
+
+            String ch = tp.get(xIndex, yIndex);
+            boolean isWhiteOrPrize = false;
+
+            if (ch.equals(""))
+                isWhiteOrPrize = true;
+            else {
+                for (Prizes prize : Prizes.values()) {
+                    if (ch.equals(prize.getIcon())) {
+                        isWhiteOrPrize = true;
+                        letters[i].setPrize(prize);
+                    }
+                }
+            }
+
+            if (isWhiteOrPrize) {
+                hasNewLetters = true;
+                letters[i].setNewLetter(true);
+                if (xIndex == 11 && yIndex == 11)
+                    valid = 1;
+            } else {
+                if (ch.equals(letters[i].getLetter()) || ch.equals("*")) {
+                    valid = 1;
+                } else
+                    valid = -1;
+            }
+        }
+
+        if (valid == -1 || valid == 0 || !hasNewLetters)
+            res = false;
         
         return res;
     }
