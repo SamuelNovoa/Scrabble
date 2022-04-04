@@ -9,14 +9,14 @@ import ui.Menu;
 /**
  * Clase principal del proyecto.
  * 
- * Importante: Para que la salida no se descuadre es necesario
- * seleccionar la fuente "DejaVu Sans Mono 12" en la consola de
- * netbeans.
+ * Importante: Para que la saída non se vexa descuadrada é preciso
+ * seleccionar a fonte "DejaVu Sans Mono 12" na consola de netbeans.
  * 
  * Melloras introducidas:
  *      - Escoller o número de xogadores [2 - 4]
  *      - Nome para cada xogador
  *      - Primeira xogada aleatoria
+ *      - Cando un xogador pasa 3 veces, é eliminado, pero o resto pode seguir xogando
  *      - 
  * 
  * @author Iago Oitavén Fraga y Samuel Novoa Comesaña
