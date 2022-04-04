@@ -13,6 +13,12 @@ import ui.Menu;
  * seleccionar la fuente "DejaVu Sans Mono 12" en la consola de
  * netbeans.
  * 
+ * Melloras introducidas:
+ *      - Escoller o número de xogadores [2 - 4]
+ *      - Nome para cada xogador
+ *      - Primeira xogada aleatoria
+ *      - 
+ * 
  * @author Iago Oitavén Fraga y Samuel Novoa Comesaña
  */
 
